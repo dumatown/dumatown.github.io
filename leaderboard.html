@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>WAGERBOARD — Monthly Leaderboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="top-header">
+      <h1 class="site-title">WAGERBOARD — Monthly Leaderboard</h1>
+      <div class="countdown-wrap">
+        <span class="countdown-label">Resets in:</span>
+        <span id="countdown" class="countdown">Loading...</span>
+      </div>
+    </header>
+
+    <section class="table-section">
+      <table class="leaderboard-table" aria-describedby="leaderboard-desc">
+        <caption id="leaderboard-desc" class="visually-hidden">
+          Top 10 players sorted by wager (highest first)
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col">Rank</th>
+            <th scope="col">Username</th>
+            <th scope="col">Wager</th>
+            <th scope="col">Level</th>
+          </tr>
+        </thead>
+        <tbody id="leaderboard-body">
+          <tr><td colspan="4" class="loading-row">Loading leaderboard...</td></tr>
+        </tbody>
+      </table>
+
+      <div id="error" class="error" role="alert" aria-live="polite" hidden></div>
+      <p class="hint">To update the leaderboard, edit <code>leaderboard.json</code> in the repo root.</p>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
