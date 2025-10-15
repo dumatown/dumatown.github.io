@@ -1,0 +1,12 @@
+[
+  { "username": "AceTrader", "wager": 12500, "level": 12 },
+  { "username": "CryptoKing", "wager": 9800, "level": 9 },
+  { "username": "BigBaller", "wager": 7500, "level": 8 },
+  { "username": "LuckyLuke", "wager": 5500, "level": 7 },
+  { "username": "WagerQueen", "wager": 4300, "level": 6 },
+  { "username": "SilentSniper", "wager": 3900, "level": 6 },
+  { "username": "HighRoller", "wager": 3550, "level": 5 },
+  { "username": "RiskyBiz", "wager": 3100, "level": 5 },
+  { "username": "ProfitPilot", "wager": 2900, "level": 4 },
+  { "username": "MoonShot", "wager": 2600, "level": 4 }
+]
