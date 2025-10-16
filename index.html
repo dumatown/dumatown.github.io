@@ -3,11 +3,10 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WAGERBOARD — Monthly Competition</title>
+  <title>Rugs.Fun Leaderboard (1 SOL Rewards)</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Animated background shapes -->
   <div class="wagerboard-container">
     <div class="background-shapes" aria-hidden="true">
       <div class="shape shape-1"></div>
@@ -15,26 +14,26 @@
       <div class="shape shape-3"></div>
     </div>
 
-    <!-- Top navigation -->
-    <nav class="nav">
+    <nav class="nav" role="navigation" aria-label="Main navigation">
       <div class="nav-inner">
-        <div class="brand">WAGERBOARD</div>
+        <div class="brand">Rugs.Fun</div>
         <ul class="nav-links">
           <li><a href="#home">Home</a></li>
           <li><a href="#leaderboard">Leaderboard</a></li>
           <li><a href="#faq">FAQ</a></li>
-          <li><a href="#discord">Discord</a></li>
+          <li><a href="#contact">Contact</a></li>
         </ul>
       </div>
     </nav>
 
-    <!-- Hero / Header -->
-    <header id="home" class="header hero">
-      <h1 class="title">WAGERBOARD — Monthly Competition</h1>
-      <p class="subtitle">Compete, climb the ranks, and dominate the monthly leaderboard.</p>
+    <header id="home" class="header hero" role="banner">
+      <h1 class="title">Rugs.Fun Leaderboard (1 SOL Rewards)</h1>
+      <p class="subtitle">Track your wagering stats and climb the board to win rewards. Updated daily.</p>
+
       <div class="cta-row">
         <a class="btn primary" href="#leaderboard">View Leaderboard</a>
-        <a class="btn ghost" href="#faq">How it works</a>
+        <a class="btn ghost" href="https://discord.gg/C5fGXx76Gg" target="_blank" rel="noopener">Join Discord</a>
+        <a class="btn ghost" href="https://x.com/dumatown" target="_blank" rel="noopener">Follow on X</a>
       </div>
 
       <div class="countdown-banner" aria-live="polite">
@@ -43,12 +42,11 @@
       </div>
     </header>
 
-    <!-- Leaderboard section -->
-    <section id="leaderboard" class="leaderboard-section">
+    <main id="leaderboard" class="leaderboard-section" role="main">
       <div class="card">
         <div class="card-head">
           <h2>Monthly Leaderboard — Top 10</h2>
-          <p class="muted">Auto-sorted by wager (highest first). Edit <code>leaderboard.json</code> to update.</p>
+          <p class="muted">Auto-sorted by wager (highest first). Edit <code>leaderboard.json</code> in the repo root to update.</p>
         </div>
 
         <div class="table-wrap" role="table" aria-label="Top 10 leaderboard">
@@ -71,20 +69,39 @@
         <div id="error" class="error" role="alert" aria-live="polite" hidden></div>
         <p class="hint">Tip: update <code>leaderboard.json</code> in the repo root. Changes appear after you commit.</p>
       </div>
-    </section>
+    </main>
 
-    <!-- Small FAQ/placeholder sections -->
     <section id="faq" class="info-section">
       <div class="card small">
-        <h3>How it works</h3>
-        <p class="muted">Update the <code>leaderboard.json</code> file with username, wager (number), and level. The page auto-sorts and shows top 10.</p>
+        <h3>How It Works</h3>
+        <ol>
+          <li>Play games on Rugs.Fun — every wager you place adds to your monthly total.</li>
+          <li>The leaderboard auto-sorts by total wager (highest first).</li>
+          <li>Top players share the monthly prize (1 SOL) — resets on the 1st of each month (PST).</li>
+          <li>Update <code>leaderboard.json</code> in the repo to change scores.</li>
+        </ol>
+
+        <h3>FAQ</h3>
+        <dl>
+          <dt>What is Wagerboard?</dt>
+          <dd>A public monthly leaderboard showing top wagerers on Rugs.Fun. Top players earn rewards.</dd>
+
+          <dt>When does it reset?</dt>
+          <dd>The leaderboard resets at 12:00 AM (midnight) PST on the 1st of each month.</dd>
+
+          <dt>How do I update my score?</dt>
+          <dd>For now, scores are updated by editing <code>leaderboard.json</code> in this repository and committing the change.</dd>
+
+          <dt>Where can I ask questions?</dt>
+          <dd>Join the community on Discord: <a href="https://discord.gg/C5fGXx76Gg" target="_blank" rel="noopener">discord.gg/C5fGXx76Gg</a></dd>
+        </dl>
       </div>
     </section>
 
-    <footer id="discord" class="footer">
+    <footer id="contact" class="footer">
       <div class="footer-inner">
-        <span>© WAGERBOARD</span>
-        <span class="muted">Monthly Leaderboard • PST resets on the 1st</span>
+        <span>Built by Dumatown</span>
+        <span class="muted">© Rugs.Fun • Monthly Leaderboard • PST reset</span>
       </div>
     </footer>
   </div>
