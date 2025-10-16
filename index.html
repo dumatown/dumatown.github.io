@@ -46,18 +46,18 @@
       <div class="card">
         <div class="card-head">
           <h2>Monthly Leaderboard — Top 10</h2>
-          <p class="muted">Auto-sorted by wager (highest first). Edit <code>leaderboard.json</code> in the repo root to update.</p>
+          <p class="muted">Auto-sorted by level (highest first). Edit <code>leaderboard.json</code> in the repo root to update.</p>
         </div>
 
         <div class="table-wrap" role="table" aria-label="Top 10 leaderboard">
           <table class="leaderboard-table" aria-describedby="leaderboard-desc">
-            <caption id="leaderboard-desc" class="visually-hidden">Top 10 players sorted by wager (highest first)</caption>
+            <caption id="leaderboard-desc" class="visually-hidden">Top 10 players sorted by level (highest first)</caption>
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">Username</th>
-                <th scope="col">Wager</th>
                 <th scope="col">Level</th>
+                <th scope="col">Prize</th>
               </tr>
             </thead>
             <tbody id="leaderboard-body">
@@ -75,33 +75,42 @@
       <div class="card small">
         <h3>How It Works</h3>
         <ol>
-          <li>Play games on Rugs.Fun — every wager you place adds to your monthly total.</li>
-          <li>The leaderboard auto-sorts by total wager (highest first).</li>
-          <li>Top players share the monthly prize (1 SOL) — resets on the 1st of each month (PST).</li>
-          <li>Update <code>leaderboard.json</code> in the repo to change scores.</li>
+          <li>Play games on Rugs.Fun — every wager you place adds to your monthly total (tracked elsewhere).</li>
+          <li>The leaderboard auto-sorts by <strong>level</strong> (highest = top rank).</li>
+          <li>Top players share the monthly prize pool (see prizes below). Resets every 31 days (PST).</li>
+          <li>To update scores, edit <code>leaderboard.json</code> in this repo and commit your changes.</li>
         </ol>
 
         <h3>FAQ</h3>
         <dl>
           <dt>What is Wagerboard?</dt>
-          <dd>A public monthly leaderboard showing top wagerers on Rugs.Fun. Top players earn rewards.</dd>
+          <dd>A public monthly leaderboard showing top wagerers on Rugs.Fun. Top players earn SOL rewards.</dd>
 
           <dt>When does it reset?</dt>
-          <dd>The leaderboard resets at 12:00 AM (midnight) PST on the 1st of each month.</dd>
+          <dd>The leaderboard resets in 31 days from the time you (Dumatown) started this campaign. After that each reset is every 31 days (PST).</dd>
 
           <dt>How do I update my score?</dt>
-          <dd>For now, scores are updated by editing <code>leaderboard.json</code> in this repository and committing the change.</dd>
+          <dd>Edit <code>leaderboard.json</code> in this repository (username + level) and commit the file. The site polls the JSON every 30s.</dd>
 
           <dt>Where can I ask questions?</dt>
           <dd>Join the community on Discord: <a href="https://discord.gg/C5fGXx76Gg" target="_blank" rel="noopener">discord.gg/C5fGXx76Gg</a></dd>
         </dl>
+
+        <h3>Prizes (Top 5)</h3>
+        <ul>
+          <li>1st — 1 SOL</li>
+          <li>2nd — 0.5 SOL</li>
+          <li>3rd — 0.25 SOL</li>
+          <li>4th — 0.1 SOL</li>
+          <li>5th — 0.05 SOL</li>
+        </ul>
       </div>
     </section>
 
     <footer id="contact" class="footer">
       <div class="footer-inner">
         <span>Built by Dumatown</span>
-        <span class="muted">© Rugs.Fun • Monthly Leaderboard • PST reset</span>
+        <span class="muted">© Rugs.Fun • Leaderboard • PST reset</span>
       </div>
     </footer>
   </div>
