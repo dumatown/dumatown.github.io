@@ -1,10 +1,22 @@
-// script.js - loads leaderboard.json, sorts by wager (desc), shows top 10 and PST monthly countdown
+// script.js - ranks by level (desc), auto-assigns prize for top5, and uses a 31-day PST countdown
 
 const LEADERBOARD_JSON = 'leaderboard.json';
 const MAX_ROWS = 10;
 const leaderboardBody = document.getElementById('leaderboard-body');
 const errorBox = document.getElementById('error');
 const countdownEl = document.getElementById('countdown');
+
+// prize map by rank (1-indexed)
+const PRIZE_MAP = {
+  1: '1 SOL',
+  2: '0.5 SOL',
+  3: '0.25 SOL',
+  4: '0.1 SOL',
+  5: '0.05 SOL'
+};
+
+// store target reset in localStorage so it persists across reloads
+const STORAGE_KEY = 'rugsfun_next_reset_pst_31d';
 
 function showError(message) {
   if (errorBox) {
@@ -26,12 +38,16 @@ async function loadLeaderboard() {
     const cleaned = data
       .map(item => ({
         username: String(item.username || '').trim(),
-        wager: Number(item.wager || 0),
-        level: item.level == null ? '' : Number(item.level)
+        level: Number(item.level || 0)
       }))
-      .filter(item => item.username.length > 0 && !Number.isNaN(item.wager));
+      .filter(item => item.username.length > 0 && !Number.isNaN(item.level));
 
-    cleaned.sort((a,b) => b.wager - a.wager);
+    // Sort by level descending, tie-breaker: username ascending
+    cleaned.sort((a, b) => {
+      if (b.level !== a.level) return b.level - a.level;
+      return a.username.localeCompare(b.username);
+    });
+
     const top = cleaned.slice(0, MAX_ROWS);
     renderTable(top);
   } catch (err) {
@@ -48,14 +64,14 @@ function renderTable(rows) {
   const html = rows.map((r, i) => {
     const rank = i + 1;
     const username = escapeHtml(r.username);
-    const wager = formatCurrency(r.wager);
-    const level = (r.level === '' || r.level === null || r.level === undefined) ? '-' : String(r.level);
+    const level = String(r.level);
+    const prize = PRIZE_MAP[rank] || '-';
     return `
       <tr>
         <td class="rank">${rank}</td>
         <td class="username">${username}</td>
-        <td class="wager">${wager}</td>
         <td class="level">${level}</td>
+        <td class="prize">${prize}</td>
       </tr>
     `;
   }).join('');
@@ -67,48 +83,65 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 }
 
-function formatCurrency(n) {
-  try {
-    return n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
-  } catch (e) {
-    return '$' + Math.round(n).toLocaleString();
-  }
-}
+/* -----------------------------
+   Countdown: 31 days from "now" in PST
+   - Persist the chosen target in localStorage so it doesn't change each reload
+   - If no stored target, set one to LA now + 31 days
+   - When time expires, set new target = now + 31 days
+------------------------------*/
 
-/* Countdown to monthly reset (1st of next month at 00:00 America/Los_Angeles) */
 function getLANowAsDate() {
+  // returns a Date representing the current LA wall-clock time
   const laStr = new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles' });
   return new Date(laStr);
 }
 
-function getNextMonthlyResetInLA() {
+function loadOrCreateTarget() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (raw) {
+    const t = new Date(raw);
+    if (!isNaN(t.getTime())) return t;
+  }
+  // create new target: LA now + 31 days
   const laNow = getLANowAsDate();
-  let year = laNow.getFullYear();
-  let month = laNow.getMonth() + 1; // next month
-  if (month > 11) { month = 0; year += 1; }
-  const reset = new Date(laNow);
-  reset.setFullYear(year);
-  reset.setMonth(month, 1);
-  reset.setHours(0,0,0,0);
-  return reset;
+  const target = new Date(laNow.getTime() + 31 * 24 * 60 * 60 * 1000);
+  // store ISO string (UTC time) for persistence
+  localStorage.setItem(STORAGE_KEY, target.toISOString());
+  return target;
+}
+
+function resetTargetToNowPlus31d() {
+  const laNow = getLANowAsDate();
+  const target = new Date(laNow.getTime() + 31 * 24 * 60 * 60 * 1000);
+  localStorage.setItem(STORAGE_KEY, target.toISOString());
+  return target;
 }
 
 function updateCountdown() {
   try {
     const laNow = getLANowAsDate();
-    const target = getNextMonthlyResetInLA();
-    let diff = target.getTime() - laNow.getTime();
-    if (diff <= 0) { countdownEl.textContent = 'Resetting...'; return; }
-    const days = Math.floor(diff / 86400000);
-    diff -= days * 86400000;
-    const hours = Math.floor(diff / 3600000);
-    diff -= hours * 3600000;
-    const mins = Math.floor(diff / 60000);
-    diff -= mins * 60000;
-    const secs = Math.floor(diff / 1000);
+    let target = loadOrCreateTarget();
+
+    // If target is in the past (maybe changed system clock), reset it
+    if (target.getTime() - laNow.getTime() <= 0) {
+      target = resetTargetToNowPlus31d();
+    }
+
+    const diffMs = target.getTime() - laNow.getTime();
+    if (diffMs <= 0) {
+      countdownEl.textContent = 'Resetting...';
+      return;
+    }
+
+    const totalSeconds = Math.floor(diffMs / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+
     countdownEl.textContent = `${days}d ${hours}h ${mins}m ${secs}s (PST)`;
   } catch (e) {
-    console.error(e);
+    console.error('Countdown error', e);
     countdownEl.textContent = '—';
   }
 }
@@ -116,7 +149,7 @@ function updateCountdown() {
 /* Init */
 document.addEventListener('DOMContentLoaded', () => {
   loadLeaderboard();
-  setInterval(loadLeaderboard, 30000);
+  setInterval(loadLeaderboard, 30000); // reload JSON every 30s
   updateCountdown();
   setInterval(updateCountdown, 1000);
 });
