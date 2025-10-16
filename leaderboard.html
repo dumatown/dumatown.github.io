@@ -3,41 +3,91 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WAGERBOARD — Monthly Leaderboard</title>
+  <title>WAGERBOARD — Monthly Competition</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <main class="container">
-    <header class="top-header">
-      <h1 class="site-title">WAGERBOARD — Monthly Leaderboard</h1>
-      <div class="countdown-wrap">
-        <span class="countdown-label">Resets in:</span>
+  <!-- Animated background shapes -->
+  <div class="wagerboard-container">
+    <div class="background-shapes" aria-hidden="true">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+
+    <!-- Top navigation -->
+    <nav class="nav">
+      <div class="nav-inner">
+        <div class="brand">WAGERBOARD</div>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#leaderboard">Leaderboard</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#discord">Discord</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Hero / Header -->
+    <header id="home" class="header hero">
+      <h1 class="title">WAGERBOARD — Monthly Competition</h1>
+      <p class="subtitle">Compete, climb the ranks, and dominate the monthly leaderboard.</p>
+      <div class="cta-row">
+        <a class="btn primary" href="#leaderboard">View Leaderboard</a>
+        <a class="btn ghost" href="#faq">How it works</a>
+      </div>
+
+      <div class="countdown-banner" aria-live="polite">
+        <span class="countdown-label">Resets in (PST):</span>
         <span id="countdown" class="countdown">Loading...</span>
       </div>
     </header>
 
-    <section class="table-section">
-      <table class="leaderboard-table" aria-describedby="leaderboard-desc">
-        <caption id="leaderboard-desc" class="visually-hidden">
-          Top 10 players sorted by wager (highest first)
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col">Rank</th>
-            <th scope="col">Username</th>
-            <th scope="col">Wager</th>
-            <th scope="col">Level</th>
-          </tr>
-        </thead>
-        <tbody id="leaderboard-body">
-          <tr><td colspan="4" class="loading-row">Loading leaderboard...</td></tr>
-        </tbody>
-      </table>
+    <!-- Leaderboard section -->
+    <section id="leaderboard" class="leaderboard-section">
+      <div class="card">
+        <div class="card-head">
+          <h2>Monthly Leaderboard — Top 10</h2>
+          <p class="muted">Auto-sorted by wager (highest first). Edit <code>leaderboard.json</code> to update.</p>
+        </div>
 
-      <div id="error" class="error" role="alert" aria-live="polite" hidden></div>
-      <p class="hint">To update the leaderboard, edit <code>leaderboard.json</code> in the repo root.</p>
+        <div class="table-wrap" role="table" aria-label="Top 10 leaderboard">
+          <table class="leaderboard-table" aria-describedby="leaderboard-desc">
+            <caption id="leaderboard-desc" class="visually-hidden">Top 10 players sorted by wager (highest first)</caption>
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Wager</th>
+                <th scope="col">Level</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+              <tr><td colspan="4" class="loading-row">Loading leaderboard...</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="error" class="error" role="alert" aria-live="polite" hidden></div>
+        <p class="hint">Tip: update <code>leaderboard.json</code> in the repo root. Changes appear after you commit.</p>
+      </div>
     </section>
-  </main>
+
+    <!-- Small FAQ/placeholder sections -->
+    <section id="faq" class="info-section">
+      <div class="card small">
+        <h3>How it works</h3>
+        <p class="muted">Update the <code>leaderboard.json</code> file with username, wager (number), and level. The page auto-sorts and shows top 10.</p>
+      </div>
+    </section>
+
+    <footer id="discord" class="footer">
+      <div class="footer-inner">
+        <span>© WAGERBOARD</span>
+        <span class="muted">Monthly Leaderboard • PST resets on the 1st</span>
+      </div>
+    </footer>
+  </div>
 
   <script src="script.js"></script>
 </body>
