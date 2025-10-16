@@ -7,9 +7,13 @@ const errorBox = document.getElementById('error');
 const countdownEl = document.getElementById('countdown');
 
 function showError(message) {
-  errorBox.hidden = false;
-  errorBox.textContent = message;
-  leaderboardBody.innerHTML = '<tr><td colspan="4" class="loading-row">Unable to load leaderboard</td></tr>';
+  if (errorBox) {
+    errorBox.hidden = false;
+    errorBox.textContent = message;
+  }
+  if (leaderboardBody) {
+    leaderboardBody.innerHTML = '<tr><td colspan="4" class="loading-row">Unable to load leaderboard</td></tr>';
+  }
 }
 
 async function loadLeaderboard() {
@@ -56,10 +60,9 @@ function renderTable(rows) {
     `;
   }).join('');
   leaderboardBody.innerHTML = html;
-  errorBox.hidden = true;
+  if (errorBox) errorBox.hidden = true;
 }
 
-// simple escape
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
 }
